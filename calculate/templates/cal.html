@@ -1,0 +1,27 @@
+{% extends 'index.html' %}
+ {% block fibonachi %}
+
+  
+   {% if F_n %}
+
+     <h2> Fibonacci({{F_n}})={{F_response}}</h2>
+   {% endif %}
+  
+   {% if a_n >= 0  and a_m >= 0 %}
+
+     <h2> Ackermann({{a_n}},{{a_m}})={{a_response}}</h2>
+   {% endif %}
+
+   {% if f_n >= 0 %}
+
+     <h2> Factorial({{f_n}})={{f_response}}</h2>
+   {% endif %}
+    
+     
+    
+ {% endblock fibonachi %}
+
+ {% block ackerman %}
+ {% endblock ackerman %}
+ {% block factoriel %}
+ {% endblock factoriel %}

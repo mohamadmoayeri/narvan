@@ -6,7 +6,7 @@ class fibonacci_form(forms.Form):
 
     def clean_x(self):
         x=self.cleaned_data['x']
-        if  x<=0:
+        if  x<0:
             raise forms.ValidationError('please enter a positive integer number')
         return x
 

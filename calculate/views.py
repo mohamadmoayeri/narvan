@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 
 # Create your views here.
 
@@ -6,6 +6,11 @@ from django.views.generic import TemplateView
 
 from .forms import fibonacci_form,ackermann_form,factorial_form
 import sys
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import Serial
 
 sys.setrecursionlimit(40000)
 
@@ -46,7 +51,7 @@ def  fibonacci(request):
              'f1':f1,'f2':f2,'f3':f3
          }
 
-            return render(request,'index.html',context)
+            return redirect('home')
 
 
 
@@ -134,3 +139,41 @@ def factorial(request):
          }
 
             return render(request,'index.html',context)
+
+
+
+
+@api_view(['POST'])
+def api_calculate(request):
+    ser = Serial(data=request.data)
+
+    if ser.is_valid() and 'm' not in ser.data:
+        n = ser.data['n']
+        func = ser.data['func']
+
+        if func == "fibonacci":
+            return Response({"result":Fibonacci(n)},
+                            status=status.HTTP_200_OK)
+
+        elif func== "factorial":
+            return Response({"result":Factorial(n)},
+                            status=status.HTTP_200_OK)
+        else:
+
+            return Response({"error": "send a valid func"},
+                            status=status.HTTP_400_BAD_REQUEST)
+    elif ser.is_valid():
+        n = ser.data['n']
+        m = ser.data['m']
+        func = ser.data['func']
+
+        if func == "ackermann":
+            return Response({"result": A(n,m)},
+                            status=status.HTTP_200_OK)
+        
+        else:
+            return Response({"error": "send a valid func"},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+    else:
+        return Response(ser.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -126,4 +126,10 @@ STATIC_URL = '/static/'
 
 
 
+#celery
 
+CELERY_BROCKER_URL="amqp://guest:guest@localhost"
+
+CELERY_RESULT_BACKEND='rpc://'
+
+#CELERY_RESULT_SERIALIZERS='json'
